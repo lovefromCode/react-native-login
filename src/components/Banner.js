@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, Image } from 'react-native'
 
 export default function Banner({ data }) {
-  console.log({ data });
+  // console.log({ data });
   return (
     <View>
       <Image

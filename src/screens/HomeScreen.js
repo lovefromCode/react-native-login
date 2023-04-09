@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
     SafeAreaView,
     ScrollView,
@@ -13,12 +13,19 @@ import {
     TextInput,
 } from 'react-native';
 
-import { sliderData } from '../model/data';
+import { sliderData, freeGames, paidGames } from '../model/data';
 import Banner from '../components/Banner';
 import Carousel from 'react-native-snap-carousel';
+import CustomSwitch from '../components/CustomSwitch';
+import GenericListItem from '../components/GenericListItem';
 
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
+    const [gameTab, setGameTab] = useState(1);
+
+    // const handleSelectSwitch = value => {
+    //     setGamesTab(value);
+    // };
 
     const renderBanner = ({ item, index }) => {
         return (
@@ -77,6 +84,48 @@ export default function HomeScreen() {
                     sliderWidth={360}
                     itemWidth={300}
                 />
+
+                {/* <View style={{ margin: 20, display: 'flex', justifyContent: 'center' }}> */}
+                <CustomSwitch
+                    {...{
+                        gameTab,
+                        setGameTab,
+                    }}
+                />
+                {/* </View> */}
+
+                {gameTab === 1 && (
+                    <View style={{ marginLeft: 20, marginRight: 20 }}>
+                        {freeGames.map(item =>
+                            <GenericListItem
+                                key={item.id}
+                                item={item}
+                                onPress={() =>
+                                    navigation.navigate('GameDetails', {
+                                        title: item.title,
+                                        id: item.id,
+                                    })
+                                }
+                            />
+                        )}
+                    </View>
+                )}
+                {gameTab === 2 && (
+                    <View style={{ marginLeft: 20, marginRight: 20 }}>
+                        {paidGames.map(item =>
+                            <GenericListItem
+                                key={item.id}
+                                item={item}
+                                onPress={() =>
+                                    navigation.navigate('GameDetails', {
+                                        title: item.title,
+                                        id: item.id,
+                                    })
+                                }
+                            />
+                        )}
+                    </View>
+                )}
             </ScrollView>
         </SafeAreaView>
     )
